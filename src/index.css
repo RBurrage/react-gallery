@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+.gallery-image {
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+.gallery-image:hover {
+  transform: scale(1.02);
+  opacity: 0.9;
+}
+.active-thumbnail {
+  border: 3px solid #3b82f6;
+  opacity: 1;
+}
+.arrow {
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+.arrow:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+.fade-in {
+  animation: fadeIn 0.5s;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.modal {
+  transition: all 0.3s ease;
+}
