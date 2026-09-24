@@ -4,6 +4,7 @@ export default function Gallery(props) {
   const { data } = props;
   const imgIndexRef = useRef(0);
   const [activeImage, setActiveImage] = useState(data[0]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const nextImg = () => {
     const numOfImages = data.length;
@@ -16,6 +17,7 @@ export default function Gallery(props) {
     imgIndexRef.current = imgIndexRef.current - 1;
     setActiveImage(data[imgIndexRef.current]);
   };
+
   return (
     <>
       <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
@@ -31,6 +33,7 @@ export default function Gallery(props) {
               src={activeImage.url}
               className="max-h-full max-w-full object-contain fade-in"
               alt={activeImage.title}
+              onClick={() => setIsModalOpen(true)}
             />
           </div>
 
@@ -86,6 +89,74 @@ export default function Gallery(props) {
               }}
             />
           ))}
+        </div>
+      </div>
+
+      <div
+        id="image-modal"
+        className={`fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center modal ${isModalOpen ? "" : "hidden"}`}>
+        <div className="relative bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden">
+          <button
+            id="close-modal"
+            className="absolute top-4 right-4 text-gray-700 hover:text-gray-900 z-10 bg-white rounded-full p-2 shadow-lg"
+            onClick={() => setIsModalOpen(false)}>
+            <i className="fas fa-times text-xl"></i>
+          </button>
+          <div className="p-4 flex">
+            <div className="w-2/3">
+              <img
+                id="modal-image"
+                src={activeImage.url}
+                className="max-h-[70vh] w-auto mx-auto"
+                alt="Full size image"
+              />
+            </div>
+            <div className="w-1/3 p-4 border-l border-gray-200">
+              <h3 id="modal-title" className="text-xl font-bold mb-2">
+                {activeImage.title}
+              </h3>
+              <p id="modal-description" className="text-gray-700 mb-4">
+                {activeImage.description}
+              </p>
+              <div className="mb-4">
+                <h4 className="font-semibold mb-2">Details</h4>
+                <ul className="text-sm text-gray-600">
+                  <li className="flex justify-between py-1 border-b border-gray-100">
+                    <span>Category:</span>
+                    <span id="modal-category">{activeImage.category}</span>
+                  </li>
+                  <li className="flex justify-between py-1 border-b border-gray-100">
+                    <span>Date:</span>
+                    <span id="modal-date">{activeImage.date}</span>
+                  </li>
+                  <li className="flex justify-between py-1 border-b border-gray-100">
+                    <span>Size:</span>
+                    <span id="modal-size">{activeImage.size}</span>
+                  </li>
+                  <li className="flex justify-between py-1 border-b border-gray-100">
+                    <span>Likes:</span>
+                    <span id="modal-likes">{activeImage.likes}</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="flex gap-2">
+                <a
+                  href={`{activeImage.url}`}
+                  target="_bland"
+                  download={activeImage.title}>
+                  {/* href should hold the URL of the image and download should hold the name */}
+                  {/* Second project inside section3, named 'project' */}
+                  <button className="flex-1 bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
+                    <i className="fas fa-download mr-2"></i> Download
+                  </button>
+                </a>
+
+                <button className="flex-1 bg-gray-200 text-gray-700 py-2 rounded hover:bg-gray-300">
+                  <i className="fas fa-share-alt mr-2"></i> Share
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>
